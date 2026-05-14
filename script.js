@@ -86,6 +86,7 @@ const showNewsByCategory = (articles) => {
         <img src="${article.image.srcset[5].url}"/>
         </div>
         <h1>${article.title}</h1>
+        <p>${article.time}</p>
 
 
         </div>
@@ -98,6 +99,7 @@ const showNewsByCategory = (articles) => {
 
 
 loadCategory()
+loadNewsByCategory("main");
 
 // loadCategoryAsync()
 
