@@ -64,13 +64,13 @@ const loadNewsByCategory = (categoryId) => {
     // console.log(categoryId);
     fetch(`https://news-api-fs.vercel.app/api/categories/${categoryId}
 `)
-.then(res => res.json())
-.then(data => {
-    showNewsByCategory(data.articles);
-})
-.catch(err => {
-    console.log(err)
-})
+        .then(res => res.json())
+        .then(data => {
+            showNewsByCategory(data.articles);
+        })
+        .catch(err => {
+            console.log(err)
+        })
 }
 
 const showNewsByCategory = (articles) => {
@@ -81,12 +81,15 @@ const showNewsByCategory = (articles) => {
 
     articles.forEach(article => {
         newsContainer.innerHTML += `
+        <div class=" rounded-lg shadow-md">
         <div>
-        <div>
-        <img src="${article.image.srcset[5].url}"/>
+        <img class="rounded-t-lg" src="${article.image.srcset[5].url}"/>
         </div>
-        <h1>${article.title}</h1>
+        <div class="p-2">
+        <h1 class="font-bold">${article.title}</h1>
         <p>${article.time}</p>
+        
+        </div>
 
 
         </div>
