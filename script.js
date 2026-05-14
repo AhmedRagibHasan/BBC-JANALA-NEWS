@@ -1,39 +1,106 @@
 // console.log("Connection test");
 
 
- const categoryContainer = document.getElementById("category_Container")
+const categoryContainer = document.getElementById("category_Container")
+
+
+const newsContainer = document.getElementById("news_Container");
+
+
 
 
 // Normal fetch function
 
 const loadCategory = () => {
 
-    
+
 
 
     fetch("https://news-api-fs.vercel.app/api/categories")
-    .then(res => res.json())
-    .then(data => {
-        console.log(data.categories);
+        .then(res => res.json())
+        .then(data => {
+            // console.log(data.categories);
 
-        const categories = data.categories
+            const categories = data.categories
 
-        showCategory(categories);
-       
-    })
-    .catch(err => {
-        console.log(err);
-    })
+            showCategory(categories);
+
+        })
+        .catch(err => {
+            console.log(err);
+        })
 }
 
 const showCategory = (cats) => {
 
-     cats.forEach(element => {
-            categoryContainer.innerHTML +=` 
-            <li id="${element.id}" class="hover:border-b-4 hover:border-red-600 cursor-pointer">${element.title}</li>`
-        });
+    cats.forEach(element => {
+        categoryContainer.innerHTML += ` 
+            <li id="${element.id}" class="hover:border-b-4 hover:border-red-600 border-red-600 cursor-pointer">${element.title}</li>`
+    });
+
+    categoryContainer.addEventListener('click', (e) => {
+
+        const allLi = document.querySelectorAll("li");
+
+        allLi.forEach(li => {
+            li.classList.remove("border-b-4")
+        })
+
+        if (e.target.localName === "li") {
+
+            // console.log(e.target.id);
+
+
+            e.target.classList.add("border-b-4");
+
+            loadNewsByCategory(e.target.id);
+        }
+    })
 
 }
+
+const loadNewsByCategory = (categoryId) => {
+
+    // console.log(categoryId);
+    fetch(`https://news-api-fs.vercel.app/api/categories/${categoryId}
+`)
+.then(res => res.json())
+.then(data => {
+    showNewsByCategory(data.articles);
+})
+.catch(err => {
+    console.log(err)
+})
+}
+
+const showNewsByCategory = (articles) => {
+
+    // console.log(articles);
+
+    newsContainer.innerHTML = ""
+
+    articles.forEach(article => {
+        newsContainer.innerHTML += `
+        <div>
+        <div>
+        <img src="${article.image.srcset[5].url}"/>
+        </div>
+        <h1>${article.title}</h1>
+
+
+        </div>
+        `
+    })
+
+}
+
+
+
+
+loadCategory()
+
+// loadCategoryAsync()
+
 
 
 //Async Awake function
@@ -45,10 +112,6 @@ const showCategory = (cats) => {
 //     console.log(data)
 //     } catch (error) {
 //         console.log(err)
-        
+
 //     }
 // }
-
-loadCategory()
-
-// loadCategoryAsync()
