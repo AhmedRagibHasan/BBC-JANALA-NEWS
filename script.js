@@ -7,6 +7,9 @@ const categoryContainer = document.getElementById("category_Container")
 const newsContainer = document.getElementById("news_Container");
 
 
+const bookMarkContainer = document.getElementById("bookmarkcontainer")
+
+
 
 
 // Normal fetch function
@@ -81,15 +84,19 @@ const showNewsByCategory = (articles) => {
 
     articles.forEach(article => {
         newsContainer.innerHTML += `
-        <div class=" rounded-lg shadow-md">
+        <div class=" rounded-lg shadow-md ">
         <div>
         <img class="rounded-t-lg" src="${article.image.srcset[5].url}"/>
         </div>
         <div class="p-2">
         <h1 class="font-bold">${article.title}</h1>
         <p>${article.time}</p>
+
+        <button class="btn">Bookmark</button>
         
         </div>
+
+        
 
 
         </div>
@@ -99,7 +106,16 @@ const showNewsByCategory = (articles) => {
 }
 
 
+newsContainer.addEventListener('click', (e) => {
 
+    if(e.target.innerText === "Bookmark" )
+    {
+        // console.log("bookmark button clicked")
+
+        
+    }
+
+})
 
 loadCategory()
 loadNewsByCategory("main");
