@@ -7,7 +7,11 @@ const categoryContainer = document.getElementById("category_Container")
 const newsContainer = document.getElementById("news_Container");
 
 
-const bookMarkContainer = document.getElementById("bookmarkcontainer")
+const bookMarkContainer = document.getElementById("bookmarkcontainer");
+
+const bookMarkCount = document.getElementById("bookmarkcount")
+
+let bookmarks = []
 
 
 
@@ -88,7 +92,7 @@ const showNewsByCategory = (articles) => {
         <div>
         <img class="rounded-t-lg" src="${article.image.srcset[5].url}"/>
         </div>
-        <div class="p-2">
+        <div id="${article.id}" class="p-2">
         <h1 class="font-bold">${article.title}</h1>
         <p>${article.time}</p>
 
@@ -110,12 +114,60 @@ newsContainer.addEventListener('click', (e) => {
 
     if(e.target.innerText === "Bookmark" )
     {
-        // console.log("bookmark button clicked")
+        handleBookmarks(e);
+      
 
         
+
+
     }
 
 })
+
+const handleBookmarks = (e) => {
+
+      // console.log("bookmark button clicked")
+
+        const title = e.target.parentNode.children[0].innerText
+
+        const id = e.target.parentNode.id
+
+        // console.log(id)
+        // console.log(title)
+
+
+        bookmarks.push({
+            title: title,
+            id: id
+        })
+
+        showBookmarks(bookmarks);
+
+        
+
+}
+
+const  showBookmarks = (bookmarks) => {
+    bookMarkContainer.innerHTML = ""
+    bookmarks.forEach(bookmark => {
+        bookMarkContainer.innerHTML += `
+        <div class="border my-2 p-1">
+         <h1>${bookmark.title}</h1>
+         <button onclick="handleDeleteBookmark('${bookmark.id}')" class="btn btn-xs">Delete</button>
+        </div>
+        `
+    })
+
+    bookMarkCount.innerText = bookmarks.length;
+}
+
+const handleDeleteBookmark = (bookmarkId) => {
+    const filteredBookmarks = bookmarks.filter(bookmark => bookmark.id !== bookmarkId)
+    // console.log(filteredBookmarks)
+
+    bookmarks = filteredBookmarks
+    showBookmarks(bookmarks)
+}
 
 loadCategory()
 loadNewsByCategory("main");
