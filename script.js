@@ -11,6 +11,10 @@ const bookMarkContainer = document.getElementById("bookmarkcontainer");
 
 const bookMarkCount = document.getElementById("bookmarkcount")
 
+const newsDetailsModal = document.getElementById("news_details_modal")
+
+const modalContainer = document.getElementById("modal_Container")
+
 let bookmarks = []
 
 
@@ -86,8 +90,7 @@ const loadNewsByCategory = (categoryId) => {
 const showNewsByCategory = (articles) => {
 
     // console.log(articles);
-    if(articles.length === 0)
-    {
+    if (articles.length === 0) {
         showEmptyMessage()
         return;
     }
@@ -105,6 +108,9 @@ const showNewsByCategory = (articles) => {
         <p>${article.time}</p>
 
         <button class="btn">Bookmark</button>
+
+        <button class="btn">View Details</button>
+
         
         </div>
 
@@ -120,42 +126,41 @@ const showNewsByCategory = (articles) => {
 
 newsContainer.addEventListener('click', (e) => {
 
-    if(e.target.innerText === "Bookmark" )
-    {
+    if (e.target.innerText === "Bookmark") {
         handleBookmarks(e);
-      
+    }
 
+    if (e.target.innerText === "View Details") {
+        handViewDetails(e)
         
-
-
     }
 
 })
 
 const handleBookmarks = (e) => {
 
-      // console.log("bookmark button clicked")
+    // console.log("bookmark button clicked")
 
-        const title = e.target.parentNode.children[0].innerText
+    const title = e.target.parentNode.children[0].innerText
 
-        const id = e.target.parentNode.id
+    const id = e.target.parentNode.id
 
-        // console.log(id)
-        // console.log(title)
+    // console.log(id)
+    // console.log(title)
 
 
-        bookmarks.push({
-            title: title,
-            id: id
-        })
+    bookmarks.push({
+        title: title,
+        id: id
+    })
 
-        showBookmarks(bookmarks);
+    showBookmarks(bookmarks);
 
-        
+
 
 }
 
-const  showBookmarks = (bookmarks) => {
+const showBookmarks = (bookmarks) => {
     bookMarkContainer.innerHTML = ""
     bookmarks.forEach(bookmark => {
         bookMarkContainer.innerHTML += `
@@ -166,7 +171,7 @@ const  showBookmarks = (bookmarks) => {
         `
     })
 
-    bookMarkCount.innerText = bookmarks.length; 
+    bookMarkCount.innerText = bookmarks.length;
 }
 
 const handleDeleteBookmark = (bookmarkId) => {
@@ -177,14 +182,46 @@ const handleDeleteBookmark = (bookmarkId) => {
     showBookmarks(bookmarks)
 }
 
+
+handViewDetails = (e) => {
+
+     const id = e.target.parentNode.id;
+     fetch(`https://news-api-fs.vercel.app/api/news/${id}`)
+     .then(res => res.json())
+     .then(data => {
+        
+        showDtailsNews(data.article);
+     })
+     .catch(err => {
+        console.log(err)
+     })
+     
+
+}
+
+const showDtailsNews = (article) =>{
+
+    // console.log(article);
+
+    newsDetailsModal.showModal();
+
+    modalContainer.innerHTML =`
+    <h1 class="font-bold">${article.title}</h1>
+    <img class="py-5" src="${article.images[0].url}"/>
+    <p>${article.content.join("")}</p>
+    `
+
+}
+
+
 const showLoading = () => {
 
     newsContainer.innerHTML = `<div class="bg-green-700 p-3 text-white">Loading...</div>`
-     
+
 }
 
-const  showError = () => {
-     newsContainer.innerHTML = `<div class="bg-red-500 p-3 text-white">Something Went Wrong</div>`
+const showError = () => {
+    newsContainer.innerHTML = `<div class="bg-red-500 p-3 text-white">Something Went Wrong</div>`
 }
 
 const showEmptyMessage = () => {

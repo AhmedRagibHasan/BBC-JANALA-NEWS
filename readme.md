@@ -1,1 +1,1 @@
-[Live link] - 
+[Live link] - {[text](https://ahmedragibhasan.github.io/BBC-JANALA-NEWS/)}
