@@ -57,6 +57,8 @@ const showCategory = (cats) => {
 
             // console.log(e.target.id);
 
+            showLoading()
+
 
             e.target.classList.add("border-b-4");
 
@@ -158,7 +160,7 @@ const  showBookmarks = (bookmarks) => {
         `
     })
 
-    bookMarkCount.innerText = bookmarks.length;
+    bookMarkCount.innerText = bookmarks.length; 
 }
 
 const handleDeleteBookmark = (bookmarkId) => {
@@ -167,6 +169,12 @@ const handleDeleteBookmark = (bookmarkId) => {
 
     bookmarks = filteredBookmarks
     showBookmarks(bookmarks)
+}
+
+const showLoading = () => {
+
+    newsContainer.innerHTML = `<div class="bg-red-500 p-3 text-white">Loading...</div>`
+     
 }
 
 loadCategory()
