@@ -78,13 +78,19 @@ const loadNewsByCategory = (categoryId) => {
             showNewsByCategory(data.articles);
         })
         .catch(err => {
-            console.log(err)
+            // console.log(err)
+            showError()
         })
 }
 
 const showNewsByCategory = (articles) => {
 
     // console.log(articles);
+    if(articles.length === 0)
+    {
+        showEmptyMessage()
+        return;
+    }
 
     newsContainer.innerHTML = ""
 
@@ -173,8 +179,17 @@ const handleDeleteBookmark = (bookmarkId) => {
 
 const showLoading = () => {
 
-    newsContainer.innerHTML = `<div class="bg-red-500 p-3 text-white">Loading...</div>`
+    newsContainer.innerHTML = `<div class="bg-green-700 p-3 text-white">Loading...</div>`
      
+}
+
+const  showError = () => {
+     newsContainer.innerHTML = `<div class="bg-red-500 p-3 text-white">Something Went Wrong</div>`
+}
+
+const showEmptyMessage = () => {
+    newsContainer.innerHTML = `<div class="bg-orange-500 p-3 text-white">No news found for this category</div>`
+
 }
 
 loadCategory()
